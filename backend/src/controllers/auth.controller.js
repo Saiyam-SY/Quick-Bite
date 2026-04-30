@@ -1,3 +1,4 @@
+import { sendOtp } from "../config/nodeMailer.js";
 import { generateToken } from "../config/token.js";
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
@@ -95,5 +96,31 @@ export const signOut = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Sign out error", error: error.message });
+  }
+};
+
+export const setOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+    let user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "Wrong email" });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000);
+
+    user.otp = otp;
+    user.isOtpVerified = false;
+    user.otpExpire = Date.now() + 5 * 60 * 1000;
+
+    await user.save();
+
+    await sendOtp(email, otp);
+
+    return res.status(200).json({ message: "OTP send successfully" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Error while sending otp", error: error.message });
   }
 };
