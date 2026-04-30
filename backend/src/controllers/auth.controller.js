@@ -36,7 +36,7 @@ export const signUp = async (req, res) => {
         maxAge: 7 * 24 * 60 * 60 * 1000,
         httpOnly: true,
       })
-      .status(200)
+      .status(201)
       .json({
         message: `${fullName} registered successfully`,
         accessToken,
