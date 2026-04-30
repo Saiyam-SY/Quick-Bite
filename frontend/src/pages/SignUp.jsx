@@ -32,10 +32,8 @@ function SignUp() {
 
       console.log(response);
 
-      if (response.status === 200) {
-        console.log("Registration successfull");
-        // Successful hone ke baad user ko home page par bhej do
-        navigate("/signin");
+      if (response.status === 201) {
+        navigate("/signin"); // Successful hone ke baad user ko home page par bhej do
       }
     } catch (error) {
       console.log(error.response?.data?.message || "Registration failed!");
