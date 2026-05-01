@@ -56,8 +56,9 @@ function SignIn() {
           />
 
           {/* Password */}
-          <label htmlFor="password">Password</label>
           <div className="relative">
+            <label htmlFor="password">Password</label>
+
             <input
               type={showPassword ? "text" : "password"}
               name="password"
@@ -68,7 +69,13 @@ function SignIn() {
               className="w-full p-2  bg-[#EFF4FF] rounded-md "
             />
             <div
-              className="absolute top-2.5 right-3"
+              onClick={() => navigate("/forgot-password")}
+              className="absolute top-0 right-0 text-[#E74A38] cursor-pointer text-[12px] font-semibold"
+            >
+              <p>Forgot Password?</p>
+            </div>
+            <div
+              className="absolute top-7.5 right-3"
               onClick={() => setShowPassword((prev) => !prev)}
             >
               {showPassword ? <FaEyeSlash size={16} /> : <FaEye size={16} />}
