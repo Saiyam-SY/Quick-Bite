@@ -121,6 +121,38 @@ export const setOtp = async (req, res) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ message: "Error while sending otp", error: error.message });
+      .json({ message: "Error while sending OTP", error: error.message });
+  }
+};
+
+export const verifyOtp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    let user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "Wrong email" });
+    }
+
+    if (otp != user.otp) {
+      return res.status(400).json({ message: "Invalid OTP" });
+    }
+
+    if (user.otpExpire < Date.now()) {
+      return res.status(400).json({ message: "OTP Expires" });
+    }
+
+    user.isOtpVerified = true;
+
+    user.otp = null;
+    user.otpExpire = null;
+
+    await user.save();
+
+    return res.status(200).json({ message: "OTP verified successfully" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Error while verifying OTP", error: error.message });
   }
 };
