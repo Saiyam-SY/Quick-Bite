@@ -1,9 +1,11 @@
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import axios from "axios";
 import { useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
+import { googleAuth } from "../../firebase";
 
 function SignIn() {
   let navigate = useNavigate();
@@ -31,6 +33,27 @@ function SignIn() {
       }
     } catch (error) {
       console.log(error.response?.data?.message || "Login failed!");
+    }
+  };
+
+  const handleSignInWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    const firebaseResult = await signInWithPopup(googleAuth, provider);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/auth/google-auth",
+        { email: firebaseResult.user.email },
+        { withCredentials: true },
+      );
+
+      console.log(response);
+
+      if (response.status === 201) {
+        navigate("/"); // Successful hone ke baad user ko home page par bhej do
+      }
+    } catch (error) {
+      console.log(error.response?.data?.message || "Googel login failed!");
     }
   };
 
@@ -89,7 +112,10 @@ function SignIn() {
             Register
           </button>
 
-          <button className=" border py-2 rounded-md mt-2 flex justify-center items-center text-[13px] gap-1  cursor-pointer ">
+          <button
+            onClick={handleSignInWithGoogle}
+            className=" border py-2 rounded-md mt-2 flex justify-center items-center text-[13px] gap-1  cursor-pointer "
+          >
             <FcGoogle size={20} />
             <span>Sign in with Google</span>
           </button>

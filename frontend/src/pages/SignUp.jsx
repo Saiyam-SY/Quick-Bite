@@ -1,9 +1,11 @@
 import axios from "axios";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
+import { googleAuth } from "../../firebase";
 
 function SignUp() {
   let navigate = useNavigate();
@@ -33,10 +35,39 @@ function SignUp() {
       console.log(response);
 
       if (response.status === 201) {
-        navigate("/signin"); // Successful hone ke baad user ko home page par bhej do
+        navigate("/"); // Successful hone ke baad user ko home page par bhej do
       }
     } catch (error) {
       console.log(error.response?.data?.message || "Registration failed!");
+    }
+  };
+
+  const handleSignUpWithGoogle = async () => {
+    if (!mobile) {
+      return alert("Mobile Number daalo");
+    }
+    const provider = new GoogleAuthProvider();
+    const firebaseResult = await signInWithPopup(googleAuth, provider);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/auth/google-auth",
+        {
+          fullName: firebaseResult.user.displayName,
+          email: firebaseResult.user.email,
+          mobile,
+          role,
+        },
+        { withCredentials: true },
+      );
+
+      console.log(response);
+
+      if (response.status === 201) {
+        navigate("/"); // Successful hone ke baad user ko home page par bhej do
+      }
+    } catch (error) {
+      console.log(error.response?.data?.message || "Googel login failed!");
     }
   };
 
@@ -126,7 +157,10 @@ function SignUp() {
             Register
           </button>
 
-          <button className=" border py-2 rounded-md mt-2 flex justify-center items-center text-[13px] gap-1  cursor-pointer ">
+          <button
+            onClick={handleSignUpWithGoogle}
+            className=" border py-2 rounded-md mt-2 flex justify-center items-center text-[13px] gap-1  cursor-pointer "
+          >
             <FcGoogle size={20} />
             <span>Sign in with Google</span>
           </button>
