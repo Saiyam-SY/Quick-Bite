@@ -109,7 +109,7 @@ function SignIn() {
             onClick={handleSignIn}
             className="bg-[#E74A38] text-white py-2 rounded-md mt-5 cursor-pointer hover:"
           >
-            Register
+            Sign In
           </button>
 
           <button

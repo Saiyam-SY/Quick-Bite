@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.route.js";
+import userRouter from "./routes/user.route.js";
 
 export const app = express();
 
@@ -12,6 +14,8 @@ app.use(
     credentials: true, // Essential for sending cookies (like your refresh token!)
   }),
 );
+app.use(cookieParser()); // Ye line zaroor honi chahiye
 
 //apis
 app.use("/api/auth", authRoutes);
+app.use("/api/user", userRouter);
