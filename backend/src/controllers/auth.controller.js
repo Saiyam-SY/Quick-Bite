@@ -41,6 +41,7 @@ export const signUp = async (req, res) => {
       .json({
         message: `${fullName} registered successfully`,
         accessToken,
+        user: { _id: newUser._id, fullName: newUser.fullName, email: newUser.email, role: newUser.role }
       });
   } catch (error) {
     return res
@@ -78,6 +79,7 @@ export const signIn = async (req, res) => {
       .json({
         message: `${user.fullName} logged in successfully`,
         accessToken,
+        user: { _id: user._id, fullName: user.fullName, email: user.email, role: user.role }
       });
   } catch (error) {
     return res
@@ -208,6 +210,7 @@ export const googleAuth = async (req, res) => {
       .json({
         message: `${user.fullName} logged in successfully`,
         accessToken,
+        user: { _id: user._id, fullName: user.fullName, email: user.email, role: user.role }
       });
   } catch (error) {
     return res

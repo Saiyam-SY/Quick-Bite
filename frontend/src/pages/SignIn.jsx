@@ -31,7 +31,7 @@ function SignIn() {
       );
 
       console.log(response);
-      dispatch(setUserData(response.data));
+      dispatch(setUserData(response.data.user));
 
       if (response.status === 201) {
         navigate("/"); // Successful hone ke baad user ko home page par bhej do
@@ -53,7 +53,7 @@ function SignIn() {
       );
 
       console.log(response);
-      dispatch(setUserData(response.data));
+      dispatch(setUserData(response.data.user));
 
       if (response.status === 201) {
         navigate("/"); // Successful hone ke baad user ko home page par bhej do
