@@ -6,6 +6,8 @@ import { FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 import { googleAuth } from "../../firebase";
+import { useDispatch } from "react-redux";
+import { setUserData } from "../redux/userSlice";
 
 function SignIn() {
   let navigate = useNavigate();
@@ -14,6 +16,8 @@ function SignIn() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
 
   const handleSignIn = async () => {
     try {
@@ -27,6 +31,7 @@ function SignIn() {
       );
 
       console.log(response);
+      dispatch(setUserData(response.data));
 
       if (response.status === 201) {
         navigate("/"); // Successful hone ke baad user ko home page par bhej do
@@ -48,6 +53,7 @@ function SignIn() {
       );
 
       console.log(response);
+      dispatch(setUserData(response.data));
 
       if (response.status === 201) {
         navigate("/"); // Successful hone ke baad user ko home page par bhej do

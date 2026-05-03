@@ -1,8 +1,12 @@
 import React from "react";
 import { useEffect } from "react";
 import axios from "axios";
+import { setUserData } from "../redux/userSlice";
+import { useDispatch } from "react-redux";
 
 function useGetCurrentUser() {
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -12,6 +16,7 @@ function useGetCurrentUser() {
         );
 
         console.log(response);
+        dispatch(setUserData(response.data));
       } catch (error) {
         console.log(response);
       }
