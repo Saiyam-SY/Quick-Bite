@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
+import multer from "multer";
 
 export const app = express();
 
@@ -15,6 +16,7 @@ app.use(
   }),
 );
 app.use(cookieParser()); // Ye line zaroor honi chahiye
+app.use(multer());
 
 //apis
 app.use("/api/auth", authRoutes);
