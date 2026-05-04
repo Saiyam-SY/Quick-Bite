@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
 import multer from "multer";
+import shopRouter from "./routes/shop.route.js";
 
 export const app = express();
 
@@ -21,3 +22,4 @@ app.use(multer());
 //apis
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRouter);
+app.use("/api/shop", shopRouterRouter);
