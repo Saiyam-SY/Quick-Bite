@@ -3,7 +3,6 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
-import multer from "multer";
 import shopRouter from "./routes/shop.route.js";
 import itemRouter from "./routes/items.route.js";
 
@@ -18,7 +17,6 @@ app.use(
   }),
 );
 app.use(cookieParser()); // Ye line zaroor honi chahiye
-app.use(multer());
 
 //apis
 app.use("/api/auth", authRoutes);

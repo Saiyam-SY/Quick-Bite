@@ -6,9 +6,12 @@ import { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import axios from "axios";
 import { setUserData } from "../redux/userSlice";
+import { FaPlus } from "react-icons/fa";
+import { TbReceiptRupee } from "react-icons/tb";
 
 function Nav() {
   const { userData, city } = useSelector((state) => state.user);
+  const { myShopData } = useSelector((state) => state.owner);
   const dispatch = useDispatch();
 
   const [showInfo, setShowInfo] = useState(false);
@@ -29,7 +32,7 @@ function Nav() {
   };
   return (
     <div className="w-full h-[80px] px-[20px] flex items-center justify-between gap-[30px] fixed md:justify-center ">
-      {showSearch && (
+      {showSearch && userData.role === "user" && (
         <div className="w-[90%] h-[50px] md:hidden flex fixed items-center top-[80px] bg-white shadow-lg rounded-lg overflow-hidden px-3 text-sm">
           <div className=" flex items-center w-[45%] border-r-2 gap-1.5  overflow-hidden ">
             <FaLocationDot size={20} className="text-[#E74A38]  " />
@@ -51,45 +54,71 @@ function Nav() {
           Quick Bite
         </h1>
       </div>
-
-      <div className="md:w-[60%] lg:[40%] h-[50px] hidden md:flex items-center px-[20px] bg-white shadow-lg rounded-lg">
-        <div className=" flex items-center w-[20%] border-r-2 gap-1.5  ">
-          <FaLocationDot size={20} className="text-[#E74A38]  " />
-          <span className="cursor-pointer">{city}</span>
+      {userData.role === "user" && (
+        <div className="md:w-[60%] lg:[40%] h-[50px] hidden md:flex items-center px-[20px] bg-white shadow-lg rounded-lg">
+          <div className=" flex items-center w-[20%] border-r-2 gap-1.5  ">
+            <FaLocationDot size={20} className="text-[#E74A38]  " />
+            <span className="cursor-pointer">{city}</span>
+          </div>
+          {userData.role === "user" && (
+            <div className="flex items-center px-5 gap-3 w-full">
+              <FaSearch size={20} className="text-[#E74A38]" />
+              <input
+                type="text"
+                placeholder="search what you crave..."
+                className="w-full focus:outline-none  "
+              />
+            </div>
+          )}
         </div>
-
-        <div className="flex items-center px-5 gap-3 w-full">
-          <FaSearch size={20} className="text-[#E74A38]" />
-          <input
-            type="text"
-            placeholder="search what you crave..."
-            className="w-full focus:outline-none  "
-          />
-        </div>
-      </div>
+      )}
 
       <div className="flex justify-center items-center gap-10">
-        {showSearch === true ? (
-          <RxCross2
-            size={20}
-            className="text-[#E74A38]  md:hidden"
-            onClick={() => setShowSearch((prev) => !prev)}
-          />
-        ) : (
-          <FaSearch
-            size={20}
-            className="text-[#E74A38]  md:hidden"
-            onClick={() => setShowSearch((prev) => !prev)}
-          />
+        {userData.role === "user" &&
+          (showSearch === true ? (
+            <RxCross2
+              size={20}
+              className="text-[#E74A38]  md:hidden"
+              onClick={() => setShowSearch((prev) => !prev)}
+            />
+          ) : (
+            <FaSearch
+              size={20}
+              className="text-[#E74A38]  md:hidden"
+              onClick={() => setShowSearch((prev) => !prev)}
+            />
+          ))}
+        {userData.role === "user" && (
+          <div className="flex text-[#E74A38] relative cursor-pointer">
+            <FaShoppingCart size={20} className="" />
+            <span className="absolute right-[-10px] top-[-12px]">0</span>
+          </div>
         )}
-        <div className="flex text-[#E74A38] relative cursor-pointer">
-          <FaShoppingCart size={20} className="" />
-          <span className="absolute right-[-10px] top-[-12px]">0</span>
-        </div>
 
-        <button className="hidden md:block px-4 py-2 bg-[#E74A38]/10 text-[#E74A38] rounded-md">
-          My Orders
-        </button>
+        {userData.role === "owner" && myShopData && (
+          <div className="flex gap-5 ">
+            <button className="flex justify-center items-center gap-2 text-[#E74A38] ">
+              <FaPlus size={20} />
+              <span className="hidden md:block">Add items</span>
+            </button>
+
+            <div className="relative">
+              <button className="  md:flex px-4 py-2 bg-[#E74A38]/10 text-[#E74A38] rounded-md cursor-pointer justify-center items-center gap-1">
+                <span>
+                  <TbReceiptRupee
+                    size={20}
+                    className="bg-[#E74A38]/10 text-[#E74A38]"
+                  />
+                </span>
+                <span className="hidden md:block"> My Orders</span>
+              </button>
+
+              <span className="absolute -top-2 right-0 text-white bg-[#E74A38] h-5 w-5 rounded-full flex justify-center items-center">
+                0
+              </span>
+            </div>
+          </div>
+        )}
 
         {/* User  */}
         <div

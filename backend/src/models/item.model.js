@@ -50,4 +50,4 @@ const itemSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-export const Item = mongoose.model("Item", shopSchema);
+export const Item = mongoose.model("Item", itemSchema);
