@@ -10,7 +10,7 @@ import { FaPlus } from "react-icons/fa";
 import { TbReceiptRupee } from "react-icons/tb";
 
 function Nav() {
-  const { userData, city } = useSelector((state) => state.user);
+  const { userData, currentCity } = useSelector((state) => state.user);
   const { myShopData } = useSelector((state) => state.owner);
   const dispatch = useDispatch();
 
@@ -36,7 +36,9 @@ function Nav() {
         <div className="w-[90%] h-[50px] md:hidden flex fixed items-center top-[80px] bg-white shadow-lg rounded-lg overflow-hidden px-3 text-sm">
           <div className=" flex items-center w-[45%] border-r-2 gap-1.5  overflow-hidden ">
             <FaLocationDot size={20} className="text-[#E74A38]  " />
-            <span className="cursor-pointer overflow-hidden">{city}</span>
+            <span className="cursor-pointer overflow-hidden">
+              {currentCity}
+            </span>
           </div>
           <div className="flex items-center px-5 gap-3 w-full">
             <FaSearch size={20} className="text-[#E74A38]" />
@@ -58,7 +60,7 @@ function Nav() {
         <div className="md:w-[60%] lg:[40%] h-[50px] hidden md:flex items-center px-[20px] bg-white shadow-lg rounded-lg">
           <div className=" flex items-center w-[20%] border-r-2 gap-1.5  ">
             <FaLocationDot size={20} className="text-[#E74A38]  " />
-            <span className="cursor-pointer">{city}</span>
+            <span className="cursor-pointer">{currentCity}</span>
           </div>
           {userData.role === "user" && (
             <div className="flex items-center px-5 gap-3 w-full">
